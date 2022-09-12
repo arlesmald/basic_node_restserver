@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { usuariosGet, usuariosPut, usuariosPost, usuariosDelete } = require('../controllers/users.controller');
-const { validarCampos } = require('../middlewares/validar-campos');
+const {validarCampos, validarJWT, esAdminRole, tieneRol} = require('../middlewares');
 const { esRolValido, existeUsuarioporID } = require('../helpers/db-validator');
 const router = Router();
 
@@ -26,6 +26,9 @@ router.post('/', [
 ] ,usuariosPost);
 
 router.delete('/:id', [
+    validarJWT,
+    //esAdminRole, Este middleware fuerza a que el usuario tiene que ser administrador
+    tieneRol('ADMIN_ROLE','VENTAS_ROLE'),
     check('id', 'No es un id valido de mongo').isMongoId(),
     check('id').custom( existeUsuarioporID ),
     validarCampos
