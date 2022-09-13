@@ -1,5 +1,6 @@
 const Role = require('../models/rol');
-const Usuario = require('../models/usuario')
+const Usuario = require('../models/usuario');
+const Categoria = require('../models/categoria');
 
 const esRolValido = async(rol = '') => {
     const existeRol = await Role.findOne({ rol });
@@ -17,7 +18,16 @@ const existeUsuarioporID = async( id ) => {
     }
 }
 
+const existeCategoriaporID = async( id = '' ) => {
+    const existeCategoria = await Categoria.findById( id );
+    if(!existeCategoria){
+        //Throw error es la forma de lanzar un error cuando se hace una validacion personalizada 
+        throw new Error(`La categoria no existe.`)
+    }
+}
+
 module.exports = {
     esRolValido,
-    existeUsuarioporID
+    existeUsuarioporID,
+    existeCategoriaporID
 }
