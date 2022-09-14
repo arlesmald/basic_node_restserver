@@ -38,7 +38,7 @@ const crearCategoria = async(req, res = response) => {
 
     if ( categoriaDB ) {
         return res.status(400).json({
-            msg: `La categoria ${categoriaDB} ya existe.`
+            msg: `La categoria ${categoriaDB.nombre} ya existe.`
         })
     }
 
@@ -67,7 +67,7 @@ const actualizarCategoria = async(req, res = response) => {
         })
     }
 
-    const categoria = await Categoria.findByIdAndUpdate(id, {nombre})
+    const categoria = await Categoria.findByIdAndUpdate(id, {nombre}, { new:true }) // New:true devuelve el documento actualizado
 
     res.json({
         ok: true,
