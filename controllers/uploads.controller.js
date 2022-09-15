@@ -101,7 +101,10 @@ const actualizarImagenCloudinary = async (req, res = response) => {
 
     //Proceso de limpieza en caso de ya exista una imagen
     if ( modelo.img ) {
-        
+        const nombreArr =  modelo.img.split('/');
+        const nombre = nombreArr[nombreArr.length - 1];
+        const [ public_id ] = nombre.split('.');
+        cloudinary.uploader.destroy( public_id );
     }
 
 
